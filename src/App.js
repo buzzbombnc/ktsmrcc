@@ -22,12 +22,25 @@ class App extends Component {
 
     this.firebase = require("firebase/app");
     this.firebase.initializeApp(firebaseConfig);
+
+    this.authStateChange = this.authStateChange.bind(this);
+    this.firebase.auth().onAuthStateChanged(this.authStateChange);
+
+    this.state = {
+      authenticated: false
+    };
+  }
+
+  authStateChange(user) {
+    if (user) {
+      this.setState({ authenticated: true });
+    }
   }
 
   render() {
     return (
       <div className="App">
-        <Authentication firebase={ this.firebase }/>
+        { this.state.authenticated || <Authentication firebase={ this.firebase }/> }
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
