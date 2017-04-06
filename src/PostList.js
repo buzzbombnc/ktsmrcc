@@ -1,26 +1,41 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 import Post from './Post';
 
-var reactfire = require('reactfire');
-
-// Use non-ES6 creation to enable the use of mixins.
-
-var PostList = React.createClass({
-    render: function() {
-        return (
-            <div id="postlist">
-                { this.state.posts.map((p) =>
-                    <Post key={p['.key']} post={p} />
-                )}
-            </div>);
-    },
-    mixins: [reactfire],
-    componentWillMount: function() {
-        var ref = this.props.firebase.database().ref("posts");
-        this.bindAsArray(ref, "posts");
+export default class PostList extends Component {
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            posts: {}
+        };
+        
+        // The Firebase reference to all the posts.
+        this.postRef = this.props.firebase.database().ref('posts');
+        this.componentWillMount = this.componentWillMount.bind(this);
     }
-});
 
-export default PostList;
+    componentWillMount() {
+        this.postRef.on("value", (ds) => {
+            this.setState({ posts: ds.val()})
+        });
+    }
+
+    componentWillUnmount() {
+        // Kill the Firebase event handler.
+        this.postRef.off();
+    }
+
+    render() {
+        var posts = this.state.posts;
+        var keys = Object.keys(posts);
+        return (
+            <div className="Postlist">
+                { keys.map((k) =>
+                    <Post key={k} post={posts[k]} />
+                )}
+            </div>
+        );
+    }
+}
