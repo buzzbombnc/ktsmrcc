@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Authentication from './Authentication';
+import PostList from './PostList';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -15,6 +16,7 @@ const firebaseConfig = {
 };
 
 require("firebase/auth");
+require("firebase/database");
 
 class App extends Component {
   constructor(props) {
@@ -43,11 +45,8 @@ class App extends Component {
         <Authentication firebase={ this.firebase }/>
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <PostList firebase={ this.firebase } />
       </div>
     );
   }
