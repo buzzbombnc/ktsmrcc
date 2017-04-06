@@ -2,7 +2,24 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyDNjGyWHZHgPJ2sQBo8_3J76qPeOc3EWLU",
+    authDomain: "ktsmrcc.firebaseapp.com",
+    databaseURL: "https://ktsmrcc.firebaseio.com",
+    projectId: "ktsmrcc",
+    storageBucket: "ktsmrcc.appspot.com",
+    messagingSenderId: "89754455415"
+};
+
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.firebase = require("firebase/app");
+    this.firebase.initializeApp(firebaseConfig);
+  }
+
   render() {
     return (
       <div className="App">
