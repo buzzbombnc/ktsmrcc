@@ -4,6 +4,7 @@ import './App.css';
 
 import Authentication from './Authentication';
 import PostList from './PostList';
+import NewPost from './NewPost';
 
 // Firebase configuration
 const firebaseConfig = {
@@ -47,6 +48,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </div>
         <PostList firebase={ this.firebase } />
+        { this.state.authenticated && <NewPost firebase={ this.firebase } /> }
       </div>
     );
   }
