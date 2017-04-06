@@ -40,7 +40,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { this.state.authenticated || <Authentication firebase={ this.firebase }/> }
+        <Authentication firebase={ this.firebase }/>
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
