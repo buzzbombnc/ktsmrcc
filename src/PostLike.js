@@ -14,15 +14,16 @@ export default class PostLike extends Component {
         // The Firebase reference to the likes for this post.
         this.likesRef = firebase.database().ref('posts').child(this.props.postkey).child('likes');
         this.componentWillMount = this.componentWillMount.bind(this);
+        this.componentWillUnmount = this.componentWillUnmount.bind(this);
     }
 
     componentWillMount() {
         var like_data;
         this.likesRef.on("value", (ds) => like_data = ds.val());
-        // like_data will either be null or an object.
+        // like_data will either be null or an object where keys = user IDs.
         if (like_data) {
             // Update our state with an array of usernames.
-            this.setState({likes: Object.values(like_data).map((i) => i.username)});
+            this.setState({likes: Object.keys(like_data)});
         }
     }
 
@@ -32,8 +33,8 @@ export default class PostLike extends Component {
     }
 
     render() {
-        var username = firebase.auth().currentUser.email;
-        var userlikes = this.state.likes.includes(username);
+        var userid = firebase.auth().currentUser.uid;
+        var userlikes = this.state.likes.includes(userid);
         return (
             <div className="Postlikes">
                 <p>{ String(userlikes) } { this.state.likes.length }</p>
