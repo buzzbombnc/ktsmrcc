@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import { firebase } from './App';
+
 export default class Post extends Component {
     render() {
         var post = this.props.post;
@@ -9,7 +11,7 @@ export default class Post extends Component {
         var likes = {count: 0, user: false};
         // But if the database has populated, get the data right.
         if (post.likes) {
-            var username = this.props.firebase.auth().currentUser.email;
+            var username = firebase.auth().currentUser.email;
             var users = Object.values(post.likes).map((i) => i.username);
             likes.count = users.length;
             likes.user = users.includes(username);

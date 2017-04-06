@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import { firebase } from './App';
 import Post from './Post';
 
 export default class PostList extends Component {
@@ -12,7 +13,7 @@ export default class PostList extends Component {
         };
         
         // The Firebase reference to all the posts.
-        this.postRef = this.props.firebase.database().ref('posts');
+        this.postRef = firebase.database().ref('posts');
         this.componentWillMount = this.componentWillMount.bind(this);
     }
 
@@ -33,7 +34,7 @@ export default class PostList extends Component {
         return (
             <div className="Postlist">
                 { keys.map((k) =>
-                    <Post key={k} postkey={k} post={posts[k]} firebase={this.props.firebase} />
+                    <Post key={k} postkey={k} post={posts[k]} />
                 )}
             </div>
         );

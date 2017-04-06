@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import { firebase } from './App';
+
 export default class NewPost extends Component {
     constructor(props) {
         super(props);
@@ -9,7 +11,7 @@ export default class NewPost extends Component {
             message: ''
         };
 
-        this.postsref = this.props.firebase.database().ref('posts');
+        this.postsref = firebase.database().ref('posts');
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -21,7 +23,7 @@ export default class NewPost extends Component {
     handleSubmit(event) {
         // Build the post.
         var postdata = {
-            user: this.props.firebase.auth().currentUser.email,
+            user: firebase.auth().currentUser.email,
             message: this.state.message,
             likes: {}
         };

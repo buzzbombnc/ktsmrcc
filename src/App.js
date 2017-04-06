@@ -16,6 +16,8 @@ const firebaseConfig = {
     messagingSenderId: "89754455415"
 };
 
+export const firebase = require("firebase/app");
+
 require("firebase/auth");
 require("firebase/database");
 
@@ -23,7 +25,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.firebase = require("firebase/app");
+    this.firebase = firebase;
     this.firebase.initializeApp(firebaseConfig);
 
     this.authStateChange = this.authStateChange.bind(this);
@@ -43,12 +45,12 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Authentication firebase={ this.firebase }/>
+        <Authentication />
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </div>
-        <PostList firebase={ this.firebase } />
-        { this.state.authenticated && <NewPost firebase={ this.firebase } /> }
+        <PostList />
+        { this.state.authenticated && <NewPost /> }
       </div>
     );
   }

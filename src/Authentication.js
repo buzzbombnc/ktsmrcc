@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import { firebase } from './App';
+
 var firebaseui = require("firebaseui");
 
 export default class Authentication extends Component {
@@ -12,11 +14,11 @@ export default class Authentication extends Component {
                 signInSuccess: () => false,
             },
             signInOptions: [
-                this.props.firebase.auth.EmailAuthProvider.PROVIDER_ID
+                firebase.auth.EmailAuthProvider.PROVIDER_ID
             ],
             tosUrl: ''
         };
-        var ui = new firebaseui.auth.AuthUI(this.props.firebase.auth());
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
         ui.start("#auth-container", uiconfig);
     }
 
