@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import { firebase } from './App';
 import PostLike from './PostLike';
 
 export default class Post extends Component {
