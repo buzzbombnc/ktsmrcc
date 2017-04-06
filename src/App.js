@@ -14,6 +14,8 @@ const firebaseConfig = {
     messagingSenderId: "89754455415"
 };
 
+require("firebase/auth");
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +27,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Authentication />
+        <Authentication firebase={ this.firebase }/>
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
