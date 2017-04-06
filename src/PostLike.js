@@ -18,13 +18,17 @@ export default class PostLike extends Component {
     }
 
     componentWillMount() {
-        var like_data;
-        this.likesRef.on("value", (ds) => like_data = ds.val());
-        // like_data will either be null or an object where keys = user IDs.
-        if (like_data) {
-            // Update our state with an array of usernames.
-            this.setState({likes: Object.keys(like_data)});
-        }
+        this.likesRef.on("value", (ds) => {
+            var like_data = ds.val();
+            // like_data will either be null or an object where keys = user IDs.
+            if (like_data) {
+                // Update our state with an array of usernames.
+                this.setState({likes: Object.keys(like_data)});
+            } else {
+                // No likes!
+                this.setState({likes: []});
+            }
+        });
     }
 
     componentWillUnmount() {
