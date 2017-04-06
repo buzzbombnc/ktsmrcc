@@ -33,7 +33,7 @@ export default class PostList extends Component {
         return (
             <div className="Postlist">
                 { keys.map((k) =>
-                    <Post key={k} post={posts[k]} />
+                    <Post key={k} post={posts[k]} firebase={this.props.firebase} />
                 )}
             </div>
         );
