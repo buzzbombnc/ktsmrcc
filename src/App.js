@@ -25,30 +25,36 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    // Initialize Firebase.
     this.firebase = firebase;
-    this.firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
 
-    this.authStateChange = this.authStateChange.bind(this);
-    this.firebase.auth().onAuthStateChanged(this.authStateChange);
-
+    // Get the Firebase Auth service.
+    var auth = firebase.auth();
     this.state = {
-      authenticated: false
+      authenticated: (auth.currentUser || false),
+      user: auth.currentUser
     };
+
+    // Ensure we can gather user data if anything changes.
+    this.authStateChange = this.authStateChange.bind(this);
+    auth.onAuthStateChanged(this.authStateChange);
   }
 
   authStateChange(user) {
     if (user) {
-      this.setState({ authenticated: true });
+      this.setState({ authenticated: true, user: user });
     }
   }
 
   render() {
     return (
       <div className="App">
-        <Authentication />
+        { this.state.authenticated || <Authentication /> }
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </div>
+        authenticated = { String(this.state.authenticated) }
         <PostList />
         { this.state.authenticated && <NewPost /> }
       </div>
