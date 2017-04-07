@@ -29,7 +29,7 @@ export default class PostList extends Component {
     }
 
     render() {
-        var posts = this.state.posts;
+        var posts = this.state.posts || {};
         var keys = Object.keys(posts);
         return (
             <div className="Postlist">
