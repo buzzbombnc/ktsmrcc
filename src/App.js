@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Authentication from './Authentication';
 import PostList from './PostList';
 import NewPost from './NewPost';
 
@@ -21,20 +22,6 @@ export const firebase = require("firebase/app");
 require("firebase/auth");
 require("firebase/database");
 
-// FirebaseUI for helping with authentication.
-var firebaseui = require("firebaseui");
-
-// FirebaseUI configuration.
-const firebaseuiConfig = {
-    callbacks: {
-        signInSuccess: () => false,
-    },
-    signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID
-    ],
-    tosUrl: ''
-};
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -43,34 +30,33 @@ class App extends Component {
     firebase.initializeApp(firebaseConfig);
 
     // Get the Firebase Auth service.
-    var auth = firebase.auth();
+    this.auth = firebase.auth();
     this.state = {
-      authenticated: (auth.currentUser || false),
-      user: auth.currentUser
+      authenticated: (this.auth.currentUser || false),
+      user: this.auth.currentUser
     };
 
     // Ensure we can gather user data if anything changes.
     this.authStateChange = this.authStateChange.bind(this);
-    auth.onAuthStateChanged(this.authStateChange);
-
-    this.authui = new firebaseui.auth.AuthUI(auth);
-    // ui.start("#auth-container", firebaseuiConfig);
+    this.auth.onAuthStateChanged(this.authStateChange);
   }
 
   authStateChange(user) {
     if (user) {
       this.setState({ authenticated: true, user: user });
+    } else {
+      this.setState({ authenticated: false, user: null });
     }
   }
 
   render() {
     return (
       <div className="App">
-        {/*{ this.state.authenticated || <Authentication /> }*/}
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <h1>React App</h1>
         </div>
-        authenticated = { String(this.state.authenticated) }
+        <Authentication auth={ this.auth } user={ this.state.user } />
         <PostList />
         { this.state.authenticated && <NewPost /> }
       </div>
