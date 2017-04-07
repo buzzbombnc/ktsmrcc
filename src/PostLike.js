@@ -15,6 +15,7 @@ export default class PostLike extends Component {
         this.likesRef = firebase.database().ref('posts').child(this.props.postkey).child('likes');
         this.componentWillMount = this.componentWillMount.bind(this);
         this.componentWillUnmount = this.componentWillUnmount.bind(this);
+        this.canClick = this.canClick.bind(this);
         this.like = this.like.bind(this);
         this.unlike = this.unlike.bind(this);
     }
@@ -23,13 +24,9 @@ export default class PostLike extends Component {
         this.likesRef.on("value", (ds) => {
             var like_data = ds.val();
             // like_data will either be null or an object where keys = user IDs.
-            if (like_data) {
-                // Update our state with an array of usernames.
-                this.setState({likes: Object.keys(like_data)});
-            } else {
-                // No likes!
-                this.setState({likes: []});
-            }
+            this.setState({
+                likes: Object.keys(like_data || {})
+            });
         });
     }
 
@@ -38,25 +35,28 @@ export default class PostLike extends Component {
         this.likesRef.off();
     }
 
+    canClick() {
+        return !(
+            this.props.user !== null
+        );
+    }
+
     like() {
-        var userid = firebase.auth().currentUser.uid;
-        this.likesRef.set({ [userid]: true });
+        this.likesRef.set({ [this.props.user.uid]: true });
     }
 
     unlike() {
-        var userid = firebase.auth().currentUser.uid;
-        this.likesRef.child(userid).remove();
+        this.likesRef.child(this.props.user.uid).remove();
     }
 
     render() {
-        var userid = firebase.auth().currentUser.uid;
-        var userlikes = this.state.likes.includes(userid);
+        var userlikes = (this.props.user) ? this.state.likes.includes(this.props.user.uid) : false;
 
         var button;
         if (userlikes) {
-            button = (<button onClick={this.unlike}>Unlike</button>);
+            button = (<button disabled={this.canClick()} onClick={this.unlike}>Unlike</button>);
         } else {
-            button = (<button onClick={this.like}>Like</button>);
+            button = (<button disabled={this.canClick()} onClick={this.like}>Like</button>);
         }
         return (
             <div className="Postlikes">
