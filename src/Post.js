@@ -11,7 +11,7 @@ export default class Post extends Component {
             <div className="Post">
                 <h1>{ post.user }</h1>
                 <p>{ post.message }</p>
-                <PostLike postkey={ this.props.postkey } />
+                <PostLike postkey={ this.props.postkey } user={this.props.user} />
             </div>
         );
     }
