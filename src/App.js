@@ -54,7 +54,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1>React App</h1>
+          <h1>NotQuiteIt</h1>
         </div>
         <Authentication auth={ this.auth } user={ this.state.user } />
         <PostList user={ this.state.user } />
