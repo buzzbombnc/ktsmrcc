@@ -1,7 +1,4 @@
-* Integrate Firebase, including:
-    - Authentication via email
-* Allow posting of links or text
-* Allow liking of posts (single like per user per post)
+* Update public.html with site name.
 
 Bonus points:
 * Comments on posts
