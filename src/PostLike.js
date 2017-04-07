@@ -42,7 +42,7 @@ export default class PostLike extends Component {
     }
 
     like() {
-        this.likesRef.set({ [this.props.user.uid]: true });
+        this.likesRef.update({ [this.props.user.uid]: true });
     }
 
     unlike() {
