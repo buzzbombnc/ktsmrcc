@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-import Authentication from './Authentication';
 import PostList from './PostList';
 import NewPost from './NewPost';
 
@@ -16,17 +15,31 @@ const firebaseConfig = {
     messagingSenderId: "89754455415"
 };
 
+// Firebase main object available for import in other components.
 export const firebase = require("firebase/app");
-
+// Firebase add-ons.
 require("firebase/auth");
 require("firebase/database");
+
+// FirebaseUI for helping with authentication.
+var firebaseui = require("firebaseui");
+
+// FirebaseUI configuration.
+const firebaseuiConfig = {
+    callbacks: {
+        signInSuccess: () => false,
+    },
+    signInOptions: [
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+    ],
+    tosUrl: ''
+};
 
 class App extends Component {
   constructor(props) {
     super(props);
 
     // Initialize Firebase.
-    this.firebase = firebase;
     firebase.initializeApp(firebaseConfig);
 
     // Get the Firebase Auth service.
@@ -39,6 +52,9 @@ class App extends Component {
     // Ensure we can gather user data if anything changes.
     this.authStateChange = this.authStateChange.bind(this);
     auth.onAuthStateChanged(this.authStateChange);
+
+    this.authui = new firebaseui.auth.AuthUI(auth);
+    // ui.start("#auth-container", firebaseuiConfig);
   }
 
   authStateChange(user) {
@@ -50,7 +66,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        { this.state.authenticated || <Authentication /> }
+        {/*{ this.state.authenticated || <Authentication /> }*/}
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </div>
