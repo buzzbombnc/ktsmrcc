@@ -58,7 +58,7 @@ class App extends Component {
         </div>
         <Authentication auth={ this.auth } user={ this.state.user } />
         <PostList />
-        { this.state.authenticated && <NewPost /> }
+        <NewPost user={ this.state.user } />
       </div>
     );
   }
