@@ -60,8 +60,8 @@ export default class Authentication extends Component {
                         <label>Password: <input type="password" name="password" value={ this.state.password } onChange={ this.handleChange } /></label>
                     </div>
                     <div>
-                        <button disabled={this.canClick()} onClick={this.doRegister}>Register</button> 
                         <button disabled={this.canClick()} onClick={this.doLogin }>Login</button>
+                        <button disabled={this.canClick()} onClick={this.doRegister}>Register</button> 
                     </div>
                 </div>
             );
