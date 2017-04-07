@@ -8,8 +8,7 @@ export default class Authentication extends Component {
         // Form state.
         this.state = {
             email: '',
-            password: '',
-            buttonEnabled: false
+            password: ''
         };
 
         // Bind event handlers.
